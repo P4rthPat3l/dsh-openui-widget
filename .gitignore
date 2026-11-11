@@ -3,3 +3,8 @@ lib/
 .build/
 library.generated.ts
 *.tgz
+*.log
+.DS_Store
+.cache/
+.scratch/
+.playwright-cli/
