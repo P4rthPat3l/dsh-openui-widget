@@ -1,6 +1,6 @@
 {
   "name": "dsh-openui-widget",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "OpenUI widgets in the DeepSeek Harness chat: the agent writes OpenUI Lang and the transcript draws it with the full @openuidev/react-ui library.",
   "keywords": [
@@ -47,13 +47,11 @@
     "test": "node build.ts && tsc --noEmit && node --test test/*.test.ts",
     "prepublishOnly": "npm test"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "@openuidev/lang-core": "1.1.0",
     "@openuidev/react-lang": "1.1.0",
     "@openuidev/react-ui": "0.18.6",
-    "zod": "^4.0.0"
-  },
-  "devDependencies": {
     "@types/jsdom": "^30.0.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
@@ -62,7 +60,8 @@
     "jsdom": "^31.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "zod": "^4.0.0"
   },
   "dsh": {
     "bundle": {

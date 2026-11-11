@@ -211,3 +211,10 @@ test('AC-015: the render description states when to draw a widget and when not t
   assert.match(description, /One widget per answer/)
   assert.ok(description.length < 2_000, 'the decision policy must stay cheap: it rides on every request')
 })
+
+test('AC-016: the published package needs nothing installed beside it', async () => {
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8')) as {
+    dependencies?: Record<string, string>
+  }
+  assert.deepEqual(manifest.dependencies ?? {}, {}, 'a consumer must install only this package')
+})

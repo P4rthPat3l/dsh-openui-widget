@@ -46,13 +46,16 @@ console.log(`library.generated.ts ${(source.length / 1024).toFixed(1)} KiB (prom
 /* `--data-only` stops after the capture, which is all a typecheck needs. */
 if (process.argv.includes('--data-only')) process.exit(0)
 
-await build({
+// The host half bundles its one runtime import, so the published package has no
+// dependencies to install. Consumers must not pull the OpenUI toolchain, and a
+// dependency with an install script fails a pnpm add before the plugin loads.
+const hostBuild = await build({
   entryPoints: ['index.ts'],
   bundle: true,
   format: 'esm',
   platform: 'node',
   target: 'node20',
-  packages: 'external',
+  metafile: true,
   outfile: 'lib/host.js',
 })
 
@@ -83,5 +86,12 @@ ${body}
 await writeFile('lib/client.js', artifact)
 
 const host = await readFile('lib/host.js', 'utf8')
+
+/* An external import means the published package would need a dependency. */
+const externals = Object.values(hostBuild.metafile?.outputs ?? {})
+  .flatMap(output => output.imports.filter(entry => entry.external).map(entry => entry.path))
+if (externals.length > 0) {
+  throw new Error(`lib/host.js still imports ${externals.join(', ')}; the package must ship with no runtime dependencies`)
+}
 console.log(`lib/host.js ${(host.length / 1024).toFixed(1)} KiB`)
 console.log(`lib/client.js ${(artifact.length / 1024).toFixed(1)} KiB`)
