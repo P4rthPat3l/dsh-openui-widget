@@ -1,0 +1,72 @@
+{
+  "name": "dsh-openui-widget",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OpenUI widgets in the DeepSeek Harness chat: the agent writes OpenUI Lang and the transcript draws it with the full @openuidev/react-ui library.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "openui",
+    "generative-ui",
+    "widget",
+    "chat",
+    "agent"
+  ],
+  "license": "MIT",
+  "author": "Parth Patel <pp542004@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P4rthPat3l/dsh-openui-widget.git"
+  },
+  "homepage": "https://github.com/P4rthPat3l/dsh-openui-widget#readme",
+  "bugs": {
+    "url": "https://github.com/P4rthPat3l/dsh-openui-widget/issues"
+  },
+  "main": "lib/host.js",
+  "exports": {
+    ".": "./lib/host.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "LICENSE",
+    "README.md",
+    "docs/screenshots"
+  ],
+  "scripts": {
+    "bundle": "node build.ts",
+    "typecheck": "node build.ts --data-only && tsc --noEmit",
+    "test": "node build.ts && tsc --noEmit && node --test test/*.test.ts",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@openuidev/lang-core": "1.1.0",
+    "@openuidev/react-lang": "1.1.0",
+    "@openuidev/react-ui": "0.18.6",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.25.0",
+    "jsdom": "^31.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}
