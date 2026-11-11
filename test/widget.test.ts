@@ -203,3 +203,11 @@ test('AC-014: the host rejects a component argument the library does not define'
     /invalid/i,
   )
 })
+
+test('AC-015: the render description states when to draw a widget and when not to', () => {
+  const description = captureTools().render.description
+  assert.match(description, /Use this when the answer is better scanned than read/)
+  assert.match(description, /Do not use it for a single fact/)
+  assert.match(description, /One widget per answer/)
+  assert.ok(description.length < 2_000, 'the decision policy must stay cheap: it rides on every request')
+})

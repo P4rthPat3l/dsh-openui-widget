@@ -65,13 +65,15 @@ export interface PluginContext {
 }
 
 const RENDER_DESCRIPTION = [
-  'Render an interactive widget in the OpenUI chat transcript.',
+  'Draw a widget in the chat instead of answering in prose.',
   '',
-  `Call ${GUIDE_TOOL} first in the conversation: it returns the component catalog, the syntax rules, and worked examples. Do not guess component names or argument order.`,
+  'Use this when the answer is better scanned than read: a comparison across options, a trend or breakdown over time, a few numbers side by side, a table of values, a checklist of several items, or a small dashboard. Use it too when the user asks for a chart, table, dashboard, visual, or summary card.',
   '',
-  `Then write an OpenUI Lang program whose entry statement is root = ${LIBRARY_ROOT}(...), one statement per line. The widget is display-only: components render, they do not call tools or send messages.`,
+  'Do not use it for a single fact, a short explanation, code, or a conversational reply, and not when the user asked for a file or document to download. One widget per answer is enough, and never wrap a one-line answer in one.',
   '',
-  'If the program is invalid the tool returns the parse errors. Fix them and call again, and do not also describe the widget in prose.',
+  `Before the first widget in a conversation, call ${GUIDE_TOOL} for the component catalog and the syntax rules. Do not guess component names or argument order.`,
+  '',
+  `Then write an OpenUI Lang program whose entry statement is root = ${LIBRARY_ROOT}(...), one statement per line. The widget is display-only: components render, they do not call tools or send messages. Do not also describe the widget in prose. If the program is invalid the tool returns the parse errors; fix them and call again.`,
 ].join('\n')
 
 const GUIDE_DESCRIPTION = [
