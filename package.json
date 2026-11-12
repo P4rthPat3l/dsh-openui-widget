@@ -1,6 +1,6 @@
 {
   "name": "dsh-openui-widget",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "OpenUI widgets in the DeepSeek Harness chat: the agent writes OpenUI Lang and the transcript draws it with the full @openuidev/react-ui library.",
   "keywords": [
