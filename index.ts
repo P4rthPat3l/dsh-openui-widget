@@ -3,7 +3,7 @@
  *
  * The component vocabulary is the real `openuiChatLibrary` from
  * `@openuidev/react-ui`, captured at build time into `library.generated.ts`, so
- * the host validates against the same eighty-five components the client draws
+ * the host validates against the same eighty-four components the client draws
  * without importing React or the browser library.
  *
  * The guide is its own tool rather than part of the render tool's description:
@@ -64,14 +64,33 @@ export interface PluginContext {
   }
 }
 
+/** True for a plain object, the shape every JSON value check starts from. */
+function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
+  return typeof value === 'object' && value !== null
+}
+
+/** Number of components the guide names and the render tool accepts. */
+function catalogSize(schema: unknown): number {
+  if (!isRecord(schema)) return 0
+  const properties = schema.properties
+  return isRecord(properties) ? Object.keys(properties).length : 0
+}
+
+/** Breadth of the vocabulary, stated so an agent knows a component demo is possible. */
+const CATALOG_SIZE = catalogSize(LIBRARY_SCHEMA)
+
 const RENDER_DESCRIPTION = [
   'Draw a widget in the chat instead of answering in prose.',
   '',
+  `The widget is drawn from the OpenUI chat library: ${String(CATALOG_SIZE)} components covering charts, tables, cards, callouts, icons, forms, images, and code blocks.`,
+  '',
   'Use this when the answer is better scanned than read: a comparison across options, a trend or breakdown over time, a few numbers side by side, a table of values, a checklist of several items, or a small dashboard. Use it too when the user asks for a chart, table, dashboard, visual, or summary card.',
   '',
-  'Do not use it for a single fact, a short explanation, code, or a conversational reply, and not when the user asked for a file or document to download. One widget per answer is enough, and never wrap a one-line answer in one.',
+  'Use it when the user asks to see, preview, demo, mock, or explore UI components. A component demo is one widget that shows real components: a gallery of variants, a mock screen, or one component with its states.',
   '',
-  `Before the first widget in a conversation, call ${GUIDE_TOOL} for the component catalog and the syntax rules. Do not guess component names or argument order.`,
+  'Do not use it for a single fact, a short explanation, or a conversational reply, and not when the user asked for a file or document to download. One widget per answer is enough, and never wrap a one-line answer in one.',
+  '',
+  `Before the first widget in a conversation, call ${GUIDE_TOOL} for the component catalog, argument order, and worked examples. Do not guess component names or argument order.`,
   '',
   `Then write an OpenUI Lang program whose entry statement is root = ${LIBRARY_ROOT}(...), one statement per line. The widget is display-only: components render, they do not call tools or send messages. Do not also describe the widget in prose. If the program is invalid the tool returns the parse errors; fix them and call again.`,
 ].join('\n')
@@ -79,7 +98,7 @@ const RENDER_DESCRIPTION = [
 const GUIDE_DESCRIPTION = [
   'Return the OpenUI Lang guide: syntax, rules, the full component catalog with argument order, and worked examples.',
   '',
-  `Call this once before the first ${RENDER_TOOL} call in a conversation. It is long, so do not call it again unless you need to check a detail.`,
+  `Call this once before the first ${RENDER_TOOL} call in a conversation. It is long, so do not call it again unless you need a component's exact arguments. Use it to plan a component demo, a variant gallery, or a mock screen: it names every component the render tool accepts.`,
 ].join('\n')
 
 const RENDER_OUTPUT: Readonly<Record<string, unknown>> = {
@@ -90,10 +109,6 @@ const RENDER_OUTPUT: Readonly<Record<string, unknown>> = {
     spec: { type: 'string', description: 'The accepted OpenUI Lang program.' },
     components: { type: 'integer', description: 'Number of statements accepted.' },
   },
-}
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === 'object' && value !== null
 }
 
 /** Describe one parse problem in a form the model can act on. */

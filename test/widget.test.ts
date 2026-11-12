@@ -204,11 +204,14 @@ test('AC-014: the host rejects a component argument the library does not define'
   )
 })
 
-test('AC-015: the render description states when to draw a widget and when not to', () => {
+test('AC-015: the render description states when to draw a widget, when not to, and covers component demos', () => {
   const description = captureTools().render.description
   assert.match(description, /Use this when the answer is better scanned than read/)
+  assert.match(description, /preview, demo, mock, or explore UI components/)
   assert.match(description, /Do not use it for a single fact/)
   assert.match(description, /One widget per answer/)
+  assert.match(description, /\d+ components covering charts/)
+  assert.match(description, new RegExp(GUIDE_TOOL))
   assert.ok(description.length < 2_000, 'the decision policy must stay cheap: it rides on every request')
 })
 
@@ -217,4 +220,10 @@ test('AC-016: the published package needs nothing installed beside it', async ()
     dependencies?: Record<string, string>
   }
   assert.deepEqual(manifest.dependencies ?? {}, {}, 'a consumer must install only this package')
+})
+
+test('AC-017: the guide description serves a component demo agent', () => {
+  const { guide } = captureTools()
+  assert.match(guide.description, /component demo/)
+  assert.match(guide.description, new RegExp(RENDER_TOOL))
 })

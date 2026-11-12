@@ -1,6 +1,6 @@
 # OpenUI widgets for DeepSeek Harness
 
-The agent answers with a real UI instead of prose. It writes an OpenUI Lang program, the Harness validates it, and the chat transcript draws it with the full [`@openuidev/react-ui`](https://www.npmjs.com/package/@openuidev/react-ui) library: 85 components including bar, line, area, pie, radar, and scatter charts, tables, cards, callouts, icons, and forms.
+The agent answers with a real UI instead of prose. It writes an OpenUI Lang program, the Harness validates it, and the chat transcript draws it with the full [`@openuidev/react-ui`](https://www.npmjs.com/package/@openuidev/react-ui) library: 84 components including bar, line, area, pie, radar, and scatter charts, tables, cards, callouts, icons, and forms.
 
 ![A widget drawn in the transcript](docs/screenshots/widget-dark.png)
 
@@ -45,6 +45,7 @@ note = Callout("success", "On track", "Revenue beat plan by 8% this quarter.", t
 ## What you get
 
 - **The real library.** Not a lookalike. Components, charts, and layout come from `@openuidev/react-ui@0.18.6`, with its stylesheet bundled into the client artifact.
+- **Component demos.** Ask to see the library and the agent draws a gallery of real components, or one component in its states, as a single widget.
 - **Validation before commit.** The host parses every program against the same schema the client draws with, so a broken program comes back to the agent as an error naming the component, the missing argument, or the unknown name. It fixes it and calls again instead of showing an empty card.
 - **Durable widgets.** The program is stored in the tool result's `meta`, so reopening a session redraws the widget from the log with no regeneration.
 - **No hosted services.** No OpenUI Gateway, no Autofix API, no API key, and no network call from either half.
